@@ -12,7 +12,7 @@ namespace LinkMyList
         {
             #region Setup
             int smallSize = 1000;
-            int largeSize = smallSize * 100;
+            int largeSize = smallSize * 10;
 
             ClubMember[] smallLinear = new ClubMember[smallSize];
             ClubMember[] largeLinear = new ClubMember[largeSize];
@@ -28,35 +28,18 @@ namespace LinkMyList
 
             for (int i = 0; i < smallSize; i++)
             {
-                smallHashADT.Insert(CMFactory.GetClubMember());
-            }
-
-            for (int i = 0; i < largeSize; i++)
-            {
-                largeHashADT.Insert(CMFactory.GetClubMember());
-            }
-
-            for (int i = 0; i < smallSize; i++)
-            {
-                SmallCmTree.Insert(CMFactory.GetClubMember());   
-            }
-
-            for (int i = 0; i < largeSize; i++)
-            {
-                LargeCmTree.Insert(CMFactory.GetClubMember());
-            }
-
-
-            for (int i = 0; i < smallSize; i++)
-            {
                 smallLinear[i] = CMFactory.GetClubMember();
                 smallBinary[i] = CMFactory.GetClubMember();
+                SmallCmTree.Insert(CMFactory.GetClubMember());
+                smallHashADT.Insert(CMFactory.GetClubMember());
             }
 
             for (int i = 0; i < largeSize; i++)
             {
                 largeLinear[i] = CMFactory.GetClubMember();
                 largeBinary[i] = CMFactory.GetClubMember();
+                LargeCmTree.Insert(CMFactory.GetClubMember());
+                largeHashADT.Insert(CMFactory.GetClubMember());
             }
             #endregion
             System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
@@ -64,9 +47,11 @@ namespace LinkMyList
 
             #region Linear search
             Console.WriteLine("Linear Searching:");
+            Console.WriteLine("Searching small array:");
             SearchLinear(smallLinear);
             Console.WriteLine(sw.Elapsed);
 
+            Console.WriteLine("Searching large array:");
             sw.Restart();
             SearchLinear(largeLinear);
             Console.WriteLine(sw.Elapsed);
@@ -126,7 +111,6 @@ namespace LinkMyList
             Console.WriteLine(sw.Elapsed);
             #endregion
 
-            sw.Stop();
             Console.ReadKey();
 
 
@@ -241,7 +225,7 @@ namespace LinkMyList
             }
             return arr;
         }
-        public static void SearchBinary(IComparable[] arr)
+        public static void SearchBinary(ClubMember[] arr)
         {
             Random rnd = new Random(); ClubMember[] clubmemberstofind = new ClubMember[] 
             {
@@ -260,21 +244,16 @@ namespace LinkMyList
                                    
                     do               
                     {
-                        for (int j = 0; j < middle; j++)
-                            if (item.Nr == (arr[middle] as ClubMember).Nr)
-                            {
-                                location = middle;
-                            }
+                        for (int j = 0; j < middle; j++)             
+                            if (item.Nr == arr[middle].Nr)
 
-                            else if (item.Nr < (arr[middle] as ClubMember).Nr)
-                            {
-                                high = middle - 1;
-                            }
-                            else
-                            {
-                                low = middle + 1;
-                                middle = (low + high + 1) / 2;
-                            }   
+                                location = middle;     
+                                                               
+                            else if (item.Nr < arr[middle].Nr)
+                                high = middle - 1;        
+                            else               
+                                low = middle + 1;   
+                                middle = (low + high + 1) / 2;     
                     }
                     while ((low <= high) && (location == -1));
                     // Console.WriteLine("tofind " + item.ToString() +" "+ arr[location].ToString());    
