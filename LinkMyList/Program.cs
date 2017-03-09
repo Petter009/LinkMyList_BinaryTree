@@ -111,6 +111,7 @@ namespace LinkMyList
             Console.WriteLine(sw.Elapsed);
             #endregion
 
+            sw.Stop();
             Console.ReadKey();
 
 
